@@ -1,0 +1,12 @@
+# Exportações e material local sensível
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+*.bak
+*.backup
+*.log
+private/
+raw-exports/
