@@ -23,6 +23,8 @@ Não se deduz um tempo exato de convergência pela multiplicação de intervalo 
 
 ## Interpretação dos testes
 
+A degradação na CLARO foi **induzida de propósito** no ambiente controlado para simular perda no link e verificar a atuação do SD-WAN com base no Performance SLA. Não se tratou de degradação espontânea da operadora. O histórico disponível sustenta a avaliação da reação da regra, com os limites de comprovação do caminho por sessão descritos abaixo.
+
 - **Matriz → Rio:** CLARO atingiu 22% de perda e o BGP permaneceu estabelecido. O histórico relata preferência pelo caminho VIVO durante a degradação.
 - **Rio → Matriz:** CLARO atingiu 17% de perda e o BGP permaneceu estabelecido. O diagnóstico registrado ainda mostrava os dois membros como `selected`; não há base para documentar CLARO como `unselected` nessa captura.
 - **Recuperação:** retorno automático ao estado saudável.
