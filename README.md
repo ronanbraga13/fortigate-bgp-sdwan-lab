@@ -24,10 +24,12 @@ flowchart LR
 | --- | --- |
 | BGP em condição normal | Dois neighbors Established em cada FortiGate; três prefixos recebidos por neighbor |
 | ECMP | Dois next-hops por prefixo remoto |
-| Degradação CLARO: Matriz → Rio | 22% de perda, mantendo BGP estabelecido |
-| Degradação CLARO: Rio → Matriz | 17% de perda, mantendo BGP estabelecido |
+| Perda induzida na CLARO: Matriz → Rio | 22% de perda em simulação controlada, mantendo BGP estabelecido |
+| Perda induzida na CLARO: Rio → Matriz | 17% de perda em simulação controlada, mantendo BGP estabelecido |
 | Indisponibilidade de caminho | Duas perdas ICMP consecutivas durante a convergência |
 | Recuperação | Automática, com retorno dos caminhos ao estado saudável |
+
+**Nota sobre o teste:** a perda de pacotes na CLARO foi provocada intencionalmente no ambiente de laboratório para simular degradação do link e avaliar a resposta do SD-WAN com Performance SLA. Os valores de 22% e 17% não representam uma falha espontânea da operadora. A saída de SD-WAN e o histórico indicam a reação da regra, mas a captura disponível no sentido Rio → Matriz não comprova sozinha qual membro encaminhou cada sessão.
 
 Esses resultados foram confirmados pelo autor no LAB e registrados na conversa de desenvolvimento. Não representam novos testes executados a partir deste repositório. As capturas originais não estão incluídas; veja [evidências e limitações](docs/testing.md). Duas perdas ICMP não permitem deduzir um tempo exato de failover.
 
