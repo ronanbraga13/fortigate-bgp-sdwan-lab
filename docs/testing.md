@@ -4,14 +4,16 @@
 
 Os resultados abaixo foram confirmados pelo autor e recuperados do histórico do LAB. Esta publicação não executou novamente testes nos FortiGates. Capturas originais e logs brutos não foram incorporados, evitando exposição de dados de gerenciamento; não há imagens fabricadas representando saídas reais.
 
+**Condição experimental:** a perda na CLARO foi induzida intencionalmente no LAB para simular a degradação de um caminho WAN e verificar a reação do SD-WAN ao Performance SLA. Os percentuais observados não descrevem uma falha espontânea da operadora. A prova do caminho efetivo de cada fluxo ainda requer correlação de sessão e captura.
+
 ## Matriz de resultados
 
 | ID | Cenário | Resultado registrado | Limite da conclusão |
 | --- | --- | --- | --- |
 | T01 | Baseline BGP | Dois neighbors Established por FortiGate; três prefixos por neighbor | Conferir novamente ao reproduzir |
 | T02 | ECMP | Dois next-hops por prefixo remoto | Não mede divisão de banda ou sessões |
-| T03 | Degradação CLARO Matriz → Rio | 22% de perda com BGP mantido | Histórico relata preferência pela VIVO; captura não incluída |
-| T04 | Degradação CLARO Rio → Matriz | 17% de perda com BGP mantido | Ambos ainda apareciam selected; caminho por sessão não comprovado pelo indicador |
+| T03 | Degradação induzida na CLARO, Matriz → Rio | 22% de perda com BGP mantido | Histórico relata preferência pela VIVO; captura não incluída |
+| T04 | Degradação induzida na CLARO, Rio → Matriz | 17% de perda com BGP mantido | Ambos ainda apareciam selected; caminho por sessão não comprovado pelo indicador |
 | T05 | Indisponibilidade | Duas perdas ICMP consecutivas durante convergência | Histórico identifica caminho VIVO indisponível e continuidade pela CLARO; não comprova falha física |
 | T06 | Recuperação | Automática; retorno de BGP/ECMP e qualidade ao baseline | Tempo exato de recuperação não medido |
 
