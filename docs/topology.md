@@ -1,5 +1,7 @@
 # Topologia
 
+![Topologia do LAB](../images/topology/topologia-lab.png)
+
 ## Unidades e caminhos
 
 A Matriz e o Rio possuem um FortiGate e três redes LAN cada. Dois caminhos independentes no desenho lógico, CLARO e VIVO, transportam túneis IPsec entre as unidades. A independência física real das operadoras não foi medida.
