@@ -36,8 +36,4 @@ O diagrama é lógico: os endpoints de cada operadora estão em sub-redes /30 di
 5. As redes remotas entram na tabela de rotas com ECMP.
 6. As regras SD-WAN avaliam as métricas dos membros para o tráfego correspondente.
 
-## Pendências de reprodução
 
-Os backups identificam FortiOS 7.2.8 build 1639, port1 para CLARO e port2 para VIVO. Os recortes publicados abrangem apenas VPNs, interfaces de túnel e SD-WAN/SLA dos FortiGates. Infraestrutura de switches/roteadores, políticas, NAT e mecanismo de indução de perda ficam fora desses recortes.
-
-O [endereçamento](addressing.md) registra apenas valores confirmados; os [recortes dos backups](../configs/README.md) preservam os parâmetros explícitos, com PSKs removidas.
