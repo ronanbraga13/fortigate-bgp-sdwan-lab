@@ -58,17 +58,6 @@ diagnose sys sdwan service
 
 Algumas versões usam variantes como `service4`; confirmar pela ajuda da CLI. Registrar métricas por membro, ordem de preferência, regra correspondente ao fluxo e estado dos neighbors.
 
-## Evidências visuais
-
-- [Rio: perda induzida de 17% com BGP ativo](../images/tests/rio-claro-perda-17-bgp.png).
-- [Rio: baseline e serviço SD-WAN](../images/sdwan/rio-baseline-ecmp-sla.png).
-- [Matriz: retorno do SLA ao estado saudável](../images/sdwan/matriz-recuperacao-sla.png).
-
-As capturas confirmam link-cost-threshold(10), serviço 1 no Rio e serviço 2 na Matriz para o tráfego entre LANs. No Rio, VIVO_TO_MATRIZ usa membro 1 e CLARO_TO_MTZ, membro 2; na Matriz, VIVO_TO_RJ usa membro 3 e CLARO_TO_RJ, membro 4. Esses valores descrevem os prints, sem substituir um backup completo.
-
-## Configuração extraída dos backups
-
-[Matriz](../configs/fortigate-matriz.conf): zona SDWAN_RIO, regra SDWAN_RIODEJANEIRO, SLA_RIODEJANEIRO com origem 10.0.10.1 e destino 10.10.10.1.
 
 [Rio](../configs/fortigate-rio.conf): zona SDWAN_MTZ, regra SDWAN_MATRIZ, SLA_MTZ com origem 10.10.10.1 e destino 10.0.10.1.
 
