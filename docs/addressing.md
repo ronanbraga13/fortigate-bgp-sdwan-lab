@@ -7,7 +7,7 @@
 | Matriz | 65001 | 10.0.10.0/24; 10.0.20.0/24; 10.0.30.0/24 |
 | Rio | 65000 | 10.10.10.0/24; 10.10.20.0/24; 10.10.30.0/24 |
 
-Os backups confirmam interfaces LAN com endereço .1 nas seis redes e VLAN IDs 10, 20 e 30, vinculadas à port3. Essas interfaces LAN ficam fora dos recortes publicados em configs/.
+
 
 ## Underlay
 
