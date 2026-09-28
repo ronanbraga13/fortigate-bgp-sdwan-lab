@@ -22,6 +22,10 @@ A habilitação não torna quaisquer rotas equivalentes automaticamente. Os cami
 | Matriz | As três LANs do Rio | 1.1.1.1 e 2.2.2.1 |
 | Rio | As três LANs da Matriz | 1.1.1.2 e 2.2.2.2 |
 
+![Matriz: dois next-hops BGP para 10.10.10.0/24](../images/bgp/matriz-dois-next-hops-10-10-10.png)
+
+Captura na Matriz: a consulta a `10.10.10.1` mostra a rota `10.10.10.0/24` com os next-hops `1.1.1.1` via `VIVO_TO_RJ` e `2.2.2.1` via `CLARO_TO_RJ`.
+
 ECMP na tabela de rotas não comprova distribuição 50/50 de tráfego. Regras SD-WAN e o tratamento das sessões também participam do encaminhamento.
 
 ## Validação
