@@ -9,11 +9,11 @@ São duas sessões eBGP por FortiGate, uma por túnel.
 | Matriz | 65001 | 1.1.1.1 | 2.2.2.1 | 65000 |
 | Rio | 65000 | 1.1.1.2 | 2.2.2.2 | 65001 |
 
-A Matriz anuncia 10.0.10.0/24, 10.0.20.0/24 e 10.0.30.0/24. O Rio anuncia 10.10.10.0/24, 10.10.20.0/24 e 10.10.30.0/24. Os backups fornecidos confirmam a originação desses prefixos por blocos `network`, com router-id 1.1.1.9 na Matriz e 1.1.1.10 no Rio.
+A Matriz anuncia 10.0.10.0/24, 10.0.20.0/24 e 10.0.30.0/24. O Rio anuncia 10.10.10.0/24, 10.10.20.0/24 e 10.10.30.0/24.Orouter-id utilizado foi 1.1.1.9 na Matriz e 1.1.1.10 no Rio.
 
 ## Multipath
 
-O histórico do teste registra `ebgp-multipath` habilitado nos dois FortiGates e as capturas mostram dois next-hops. Os backups fornecidos posteriormente não contêm `set ebgp-multipath enable`; portanto, não devem ser tratados como prova de que esse parâmetro estava habilitado naquele export. A Fortinet documenta sua necessidade para instalar múltiplos caminhos eBGP na tabela de roteamento: [Equal cost multi-path](https://docs.fortinet.com/document/fortigate/7.4.5/administration-guide/25967).
+Configuração do `ebgp-multipath` habilitado nos dois FortiGates e as capturas mostram dois next-hops. Os backups fornecidos posteriormente não contêm `set ebgp-multipath enable`; portanto, não devem ser tratados como prova de que esse parâmetro estava habilitado naquele export. A Fortinet documenta sua necessidade para instalar múltiplos caminhos eBGP na tabela de roteamento: [Equal cost multi-path](https://docs.fortinet.com/document/fortigate/7.4.5/administration-guide/25967).
 
 A habilitação não torna quaisquer rotas equivalentes automaticamente. Os caminhos precisam atender aos critérios de seleção do BGP. No LAB, a instalação de dois next-hops por prefixo foi confirmada.
 
