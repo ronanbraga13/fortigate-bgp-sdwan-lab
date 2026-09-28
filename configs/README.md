@@ -1,6 +1,6 @@
 # Configurações FortiGate
 
-Trechos dasa configuraçãoes realizadas.
+Trechos das configuraçãoes realizadas.
 
 | Unidade | Arquivo |
 | --- | --- |
