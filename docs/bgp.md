@@ -30,6 +30,10 @@ O `ebgp-multipath` está habilitado nos dois FortiGates. Referência técnica: [
 
 Captura na Matriz: a consulta a `10.10.10.1` mostra a rota `10.10.10.0/24` com os next-hops `1.1.1.1` via `VIVO_TO_RJ` e `2.2.2.1` via `CLARO_TO_RJ`.
 
+![Matriz: regra SD-WAN das VPNs com critério Packet Loss](../images/sdwan/matriz-regra-vpn-packet-loss.png)
+
+Regra `SDWAN_RIODEJANEIRO`: tráfego de `GRP_ADDR_MATRIZ` para `GRP_ADDR_RIO`, com critério **Packet Loss**, SLA `SLA_RIODEJANEIRO` e os membros `VIVO_TO_RJ` e `CLARO_TO_RJ`. Nesta captura, a interface indica `VIVO_TO_RJ` como selecionado.
+
 A presença dos dois next-hops na tabela não significa que o tráfego será dividido em 50/50: para o tráfego correspondente à regra, a escolha do túnel segue a estratégia SD-WAN descrita acima.
 
 ## Validação
