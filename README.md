@@ -1,12 +1,32 @@
 # LAB FortiGate — VPN IPsec, BGP Multipath/ECMP e SD-WAN
 
-Laboratório de conectividade redundante entre **Matriz (AS 65001)** e **Rio de Janeiro (AS 65000)**, com dois caminhos de operadora, VPN IPsec, roteamento dinâmico e seleção de caminho por qualidade.
+Neste LAB montei uma comunicação redundante entre a **Matriz (AS 65001)** e a unidade do **Rio de Janeiro (AS 65000)** utilizando dois caminhos de operadora, túneis VPN IPsec, eBGP, Multipath/ECMP e SD-WAN com Performance SLA.
 
-## Objetivo
+O objetivo foi validar, na prática, como o ambiente se comporta em condição normal, durante degradação de link, em indisponibilidade de caminho e após a recuperação.
 
-Manter a comunicação entre as LANs das duas unidades diante de degradação ou indisponibilidade de um caminho. O IPsec fornece os túneis; o eBGP anuncia as redes; o multipath permite instalar caminhos equivalentes; o SD-WAN usa medições de perda de pacotes para orientar o encaminhamento.
+## Topologia do LAB
 
-## Topologia lógica
+![Topologia do LAB](images/topology/topologia-lab.png)
+
+A Matriz e o Rio possuem três redes LAN cada. Os dois caminhos de operadora simulados, **CLARO** e **VIVO**, transportam túneis IPsec entre os FortiGates. Sobre esses túneis estabeleci duas sessões eBGP, permitindo dois caminhos para os prefixos remotos.
+
+O BGP disponibiliza os caminhos e o SD-WAN avalia a qualidade dos membros por meio do Performance SLA.
+
+## O que implementei
+
+- VPN IPsec route-based entre Matriz e Rio por dois caminhos;
+- duas adjacências eBGP entre os FortiGates;
+- anúncio das LANs das duas unidades via BGP;
+- BGP Multipath / ECMP;
+- SD-WAN utilizando os túneis IPsec como membros;
+- Performance SLA entre as unidades;
+- seleção de caminho com base em perda de pacotes;
+- testes de degradação controlada;
+- teste de indisponibilidade de caminho;
+- validação de failover e recuperação automática;
+- coleta de evidências reais do ambiente.
+
+## Arquitetura lógica
 
 ```mermaid
 flowchart LR
@@ -18,55 +38,170 @@ flowchart LR
     R --- LRJ["LANs Rio<br/>10.10.10.0/24<br/>10.10.20.0/24<br/>10.10.30.0/24"]
 ```
 
-## Resultados registrados no LAB
+O fluxo técnico do LAB ficou:
 
-| Cenário | Resultado |
+```text
+Underlay
+   ↓
+VPN IPsec
+   ↓
+eBGP
+   ↓
+Multipath / ECMP
+   ↓
+SD-WAN
+   ↓
+Performance SLA
+```
+
+## Resultados do LAB
+
+| Cenário | Resultado observado |
 | --- | --- |
-| BGP em condição normal | Dois neighbors Established em cada FortiGate; três prefixos recebidos por neighbor |
-| ECMP | Dois next-hops por prefixo remoto |
-| Perda induzida na VIVO: Matriz → Rio | 22% de perda em simulação controlada, mantendo BGP estabelecido |
-| Perda induzida na CLARO: Rio → Matriz | 17% de perda em simulação controlada, mantendo BGP estabelecido |
-| Indisponibilidade de caminho | Duas perdas ICMP consecutivas durante a convergência |
-| Recuperação | Automática, com retorno dos caminhos ao estado saudável |
+| BGP em condição normal | Dois neighbors `Established` em cada FortiGate e três prefixos recebidos por neighbor |
+| Multipath / ECMP | Dois next-hops disponíveis por prefixo remoto |
+| Degradação VIVO — Matriz → Rio | 22% de perda induzida, mantendo as sessões BGP estabelecidas |
+| Degradação CLARO — Rio → Matriz | 17% de perda induzida, mantendo as sessões BGP estabelecidas |
+| Indisponibilidade de caminho | O SLA marcou o caminho indisponível e a comunicação continuou pelo caminho remanescente |
+| Convergência | Duas perdas ICMP consecutivas foram observadas durante o teste |
+| Recuperação | Retorno automático do SLA, BGP e ECMP ao estado saudável |
 
-**Nota sobre os testes:** as perdas de pacotes foram provocadas intencionalmente em testes separados — 22% na VIVO e, depois, 17% na CLARO — no ambiente de laboratório para simular degradação do link e avaliar a resposta do SD-WAN com Performance SLA. Os valores de 22% e 17% não representam uma falha espontânea da operadora. A saída de SD-WAN e o histórico indicam a reação da regra, mas a captura disponível no sentido Rio → Matriz não comprova sozinha qual membro encaminhou cada sessão.
+As perdas de 22% e 17% foram **induzidas intencionalmente no LAB**, em testes separados, para simular degradação de WAN e observar a reação do SD-WAN. Não representam falhas reais das operadoras.
 
-*Obs.: No momento do teste, a evidência dos 22% acabou se perdendo... rsrs. O resultado fica registrado pelo relato do autor, mas sem o print dessa medição.*
+Durante o teste da VIVO, registrei 22% de perda, porém a captura específica dessa medição não foi preservada. Por isso, esse valor está documentado como resultado observado no LAB, mas não como evidência visual disponível no repositório.
 
-Esses resultados foram confirmados no LAB e registrados nas evidências. Não representam novos testes executados a partir deste repositório. Dez capturas reais, revisadas e recortadas para remover dados de gerenciamento, estão na [galeria de evidências](images/README.md); veja também [evidências e limitações](docs/testing.md). Duas perdas ICMP não permitem deduzir um tempo exato de failover.
+Também não utilizo as duas perdas ICMP para afirmar um tempo exato de failover, pois o intervalo do ping não foi registrado.
 
 ## Evidências em destaque
 
+### BGP Multipath / ECMP
+
+![Matriz: dois next-hops BGP](images/bgp/matriz-dois-next-hops-10-10-10.png)
+
+Na Matriz, a rede `10.10.10.0/24` foi aprendida com dois next-hops: um pelo túnel VIVO e outro pelo túnel CLARO.
+
+### SD-WAN e degradação controlada
+
 ![Rio: perda induzida de 17% mantendo BGP](images/tests/rio-claro-perda-17-bgp.png)
 
-Perda induzida de 17% na CLARO, VIVO com 0% e três prefixos por neighbor. Ambos aparecem como selected; a tela não comprova o túnel usado por cada sessão.
+Durante o teste Rio → Matriz, induzi perda de **17% na CLARO**, enquanto a VIVO permaneceu com 0%. As sessões BGP continuaram estabelecidas.
+
+Essa evidência demonstra a degradação medida e a manutenção das adjacências BGP. A captura, isoladamente, não identifica qual túnel encaminhou cada sessão.
+
+### Indisponibilidade de caminho
+
+![Matriz: VIVO indisponível](images/tests/matriz-vivo-indisponivel.png)
+
+No teste de indisponibilidade, o Performance SLA marcou a VIVO como indisponível enquanto a CLARO permaneceu saudável.
+
+### Convergência
 
 ![Duas perdas ICMP durante convergência](images/tests/failover-duas-perdas-icmp.png)
 
-Timeouts nas sequências 237 e 238, com resposta retomada em 239. [Ver as dez evidências e suas legendas](images/README.md).
+Durante a convergência foram observados timeouts nas sequências 237 e 238, com as respostas sendo retomadas a partir da sequência 239.
 
-## Documentação
+### Recuperação
+
+![Matriz: recuperação do SLA](images/sdwan/matriz-recuperacao-sla.png)
+
+Após remover a condição de falha, os membros retornaram ao estado saudável e o ambiente voltou à condição normal.
+
+A galeria completa possui dez evidências reais do LAB, com a descrição do que cada captura comprova e também de suas limitações:
+
+➡️ [Ver todas as evidências](images/README.md)
+
+## BGP e SD-WAN
+
+Uma parte importante deste LAB foi separar corretamente o papel de cada tecnologia.
+
+O **BGP Multipath** mantém mais de um caminho disponível para os prefixos remotos. Já o **SD-WAN** avalia os membros e orienta o encaminhamento do tráfego correspondente à regra.
+
+Em outras palavras:
+
+> **O BGP disponibiliza os caminhos; o SD-WAN seleciona qual utilizar.**
+
+Nos testes de degradação, as sessões BGP permaneceram estabelecidas mesmo quando havia perda significativa no caminho. Isso reforça que uma sessão BGP estabelecida, sozinha, não representa a qualidade daquele caminho para o tráfego.
+
+## Configurações do LAB
+
+Publiquei somente os trechos necessários para demonstrar o funcionamento deste cenário:
+
+- [FortiGate Matriz](configs/fortigate-matriz.conf)
+- [FortiGate Rio](configs/fortigate-rio.conf)
+- [Explicação dos recortes de configuração](configs/README.md)
+
+Os arquivos incluem os trechos relacionados a:
+
+- VPN IPsec;
+- interfaces dos túneis;
+- SD-WAN;
+- Performance SLA;
+- BGP.
+
+As PSKs e demais informações sensíveis foram removidas. Esses arquivos são **recortes para estudo e demonstração**, e não backups completos para restauração.
+
+## Documentação técnica
+
+Para não transformar o README principal em uma documentação extensa, organizei os detalhes do LAB em páginas separadas:
 
 - [Topologia e papel de cada camada](docs/topology.md)
-- [Endereçamento completo](docs/addressing.md)
-- [BGP e ECMP](docs/bgp.md)
+- [Endereçamento](docs/addressing.md)
+- [BGP Multipath e ECMP](docs/bgp.md)
 - [SD-WAN e Performance SLA](docs/sdwan.md)
-- [Testes, resultados e roteiro de reprodução](docs/testing.md)
-- [Configurações FortiGate](configs/README.md)
-- [Organização das imagens](images/README.md)
+- [Testes e validações](docs/testing.md)
+- [Configurações utilizadas](configs/README.md)
+- [Galeria completa de evidências](images/README.md)
 
-## Como estudar ou reproduzir
+## Como reproduzir o cenário
 
-1. Consulte a topologia e o endereçamento.
-2. Consulte os recortes reais de VPN, interfaces de túnel e SD-WAN/SLA em `configs/` e suas dependências.
-3. Valide underlay e túneis antes de habilitar o roteamento entre as LANs.
-4. Confirme BGP e ECMP; em seguida, valide os membros e medições do SD-WAN.
-5. Execute o roteiro de testes em ambiente isolado, registrando baseline, degradação, falha e recuperação.
+Para reproduzir a lógica do LAB:
 
-**As configurações são recortes sanitizados das configurações do FortiGate, não arquivos completos para restauração.** Versão utilizada: FortiOS 7.2.8 build 1639. Os endereços de overlay foram preservados conforme o LAB; pertencem a espaço público e devem permanecer isolados de redes externas.
+1. preparar o underlay entre os endpoints;
+2. validar a conectividade IP entre as pontas;
+3. estabelecer os dois túneis IPsec;
+4. endereçar as interfaces dos túneis;
+5. estabelecer os peers eBGP;
+6. anunciar as LANs das duas unidades;
+7. habilitar o Multipath / ECMP;
+8. adicionar os túneis ao SD-WAN;
+9. configurar o Performance SLA;
+10. validar baseline antes de iniciar qualquer degradação;
+11. realizar os testes de degradação, indisponibilidade e recuperação em ambiente isolado.
 
-## Escopo
+Versão utilizada no LAB:
 
-Inclui os dados confirmados do LAB. Não inclui credenciais, PSKs, exportações completas dos equipamentos ou endereços de gerenciamento. Os arquivos de configuração se limitam às VPNs, interfaces dos peers e SD-WAN/SLA relacionados. Switches e roteadores não possuem arquivos de configuração neste repositório.
+```text
+FortiOS 7.2.8 build 1639
+```
 
-A documentação técnica da Fortinet é referenciada nas páginas de BGP e SD-WAN; as versões citadas servem como referência.
+## Escopo e limitações
+
+Este repositório representa um **laboratório controlado**.
+
+Não publiquei:
+
+- credenciais;
+- PSKs;
+- exportações completas dos FortiGates;
+- endereços de gerenciamento;
+- dados de produção.
+
+Os endereços de overlay `1.1.1.x` e `2.2.2.x` reproduzem o LAB, mas pertencem a espaço público. Eles devem permanecer isolados e não devem ser anunciados para redes externas.
+
+As políticas de firewall necessárias para permitir a comunicação entre as LANs não fazem parte dos recortes publicados e precisam ser consideradas em uma reprodução do cenário.
+
+## Próximas evoluções
+
+Este LAB cobre a comunicação redundante **Matriz ↔ Rio**.
+
+As próximas etapas planejadas para o ambiente são:
+
+- estabelecer BGP entre **Matriz e Minas**, utilizando FortiGate na Matriz e pfSense em Minas;
+- validar a troca de rotas em um cenário multi-vendor;
+- posteriormente permitir que o tráfego de **Minas alcance o Rio através da Matriz**, utilizando a Matriz como ponto de trânsito.
+
+---
+
+**Ronan Braga**
+
+LAB desenvolvido para estudo prático e portfólio técnico nas áreas de **Network Security, Fortinet, VPN IPsec, BGP, SD-WAN, ECMP e troubleshooting de redes**.
