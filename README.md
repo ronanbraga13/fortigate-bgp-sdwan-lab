@@ -31,7 +31,17 @@ flowchart LR
 
 **Nota sobre o teste:** a perda de pacotes na CLARO foi provocada intencionalmente no ambiente de laboratório para simular degradação do link e avaliar a resposta do SD-WAN com Performance SLA. Os valores de 22% e 17% não representam uma falha espontânea da operadora. A saída de SD-WAN e o histórico indicam a reação da regra, mas a captura disponível no sentido Rio → Matriz não comprova sozinha qual membro encaminhou cada sessão.
 
-Esses resultados foram confirmados pelo autor no LAB e registrados na conversa de desenvolvimento. Não representam novos testes executados a partir deste repositório. As capturas originais não estão incluídas; veja [evidências e limitações](docs/testing.md). Duas perdas ICMP não permitem deduzir um tempo exato de failover.
+Esses resultados foram confirmados pelo autor no LAB e registrados na conversa de desenvolvimento. Não representam novos testes executados a partir deste repositório. Dez capturas reais, revisadas e recortadas para remover dados de gerenciamento, estão na [galeria de evidências](images/README.md); veja também [evidências e limitações](docs/testing.md). Duas perdas ICMP não permitem deduzir um tempo exato de failover.
+
+## Evidências em destaque
+
+![Rio: perda induzida de 17% mantendo BGP](images/tests/rio-claro-perda-17-bgp.png)
+
+Perda induzida de 17% na CLARO, VIVO com 0% e três prefixos por neighbor. Ambos aparecem como selected; a tela não comprova o túnel usado por cada sessão.
+
+![Duas perdas ICMP durante convergência](images/tests/failover-duas-perdas-icmp.png)
+
+Timeouts nas sequências 237 e 238, com resposta retomada em 239. [Ver as dez evidências e suas legendas](images/README.md).
 
 ## Documentação
 
