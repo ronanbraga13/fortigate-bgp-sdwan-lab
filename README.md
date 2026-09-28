@@ -51,21 +51,21 @@ Timeouts nas sequências 237 e 238, com resposta retomada em 239. [Ver as dez ev
 - [SD-WAN e Performance SLA](docs/sdwan.md)
 - [Testes, resultados e roteiro de reprodução](docs/testing.md)
 - [Troubleshooting](docs/troubleshooting.md)
-- [Configurações parciais e pendências](configs/README.md)
+- [Configurações FortiGate](configs/README.md)
 - [Organização das imagens](images/README.md)
 
 ## Como estudar ou reproduzir
 
 1. Consulte a topologia e o endereçamento.
-2. Complete os TODOs de interfaces, versão do FortiOS, IPsec, políticas e infraestrutura em `configs/`.
+2. Consulte os recortes reais de VPN, interfaces de túnel e SD-WAN/SLA em `configs/` e suas dependências.
 3. Valide underlay e túneis antes de habilitar o roteamento entre as LANs.
 4. Confirme BGP e ECMP; em seguida, valide os membros e medições do SD-WAN.
 5. Execute o roteiro de testes em ambiente isolado, registrando baseline, degradação, falha e recuperação.
 
-**As configurações são exemplos parciais, não backups nem arquivos prontos para importação.** A versão/build do FortiOS não foi confirmada. Os endereços de overlay foram preservados conforme o LAB; pertencem a espaço público e devem permanecer isolados de redes externas.
+**As configurações são recortes sanitizados dos backups FortiGate, não arquivos completos para restauração.** Versão confirmada nos backups: FortiOS 7.2.8 build 1639. Os endereços de overlay foram preservados conforme o LAB; pertencem a espaço público e devem permanecer isolados de redes externas.
 
 ## Escopo
 
-Inclui os dados confirmados do LAB. Não inclui credenciais, PSKs, exportações completas dos equipamentos ou endereços de gerenciamento. Máscaras dos túneis, propostas IPsec, políticas, interfaces físicas, VLAN IDs e parâmetros não confirmados estão marcados como TODO.
+Inclui os dados confirmados do LAB. Não inclui credenciais, PSKs, exportações completas dos equipamentos ou endereços de gerenciamento. Os arquivos de configuração se limitam às VPNs, interfaces dos peers e SD-WAN/SLA relacionados. Switches e roteadores não possuem arquivos de configuração neste repositório.
 
-A documentação técnica da Fortinet é referenciada nas páginas de BGP e SD-WAN; as versões citadas servem como referência e não identificam a versão utilizada neste LAB.
+A documentação técnica da Fortinet é referenciada nas páginas de BGP e SD-WAN; as versões citadas servem como referência; os backups fornecidos identificam FortiOS 7.2.8 build 1639.

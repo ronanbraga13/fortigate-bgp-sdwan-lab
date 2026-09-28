@@ -38,6 +38,6 @@ O diagrama é lógico: os endpoints de cada operadora estão em sub-redes /30 di
 
 ## Pendências de reprodução
 
-TODO: versão/build do FortiOS, plataforma de virtualização, nomes das interfaces físicas, mapeamento de portas, equipamentos e software dos roteadores/switches, IDs de VLAN, políticas de firewall, NAT, parâmetros IPsec e mecanismo de indução de perda.
+Os backups identificam FortiOS 7.2.8 build 1639, port1 para CLARO e port2 para VIVO. Os recortes publicados abrangem apenas VPNs, interfaces de túnel e SD-WAN/SLA dos FortiGates. Infraestrutura de switches/roteadores, políticas, NAT e mecanismo de indução de perda ficam fora desses recortes.
 
-O [endereçamento](addressing.md) registra apenas valores confirmados; os [exemplos](../configs/README.md) não preenchem essas lacunas por suposição.
+O [endereçamento](addressing.md) registra apenas valores confirmados; os [recortes dos backups](../configs/README.md) preservam os parâmetros explícitos, com PSKs removidas.

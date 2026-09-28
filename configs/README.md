@@ -1,23 +1,16 @@
-# Configurações parciais
+# Configurações FortiGate
 
-Estes arquivos **não são backups**, não foram aplicados aos equipamentos nesta publicação e **não estão prontos para importação**.
+Trechos reais dos backups fornecidos, de **FortiOS 7.2.8 build 1639**.
 
-| Arquivo | Conteúdo |
+| Unidade | Arquivo |
 | --- | --- |
-| [fortigate-matriz.conf](fortigate-matriz.conf) | Exemplo BGP com AS/peers confirmados; originação por network proposta |
-| [fortigate-rio.conf](fortigate-rio.conf) | Exemplo equivalente para o Rio |
-| [router-claro.conf](router-claro.conf) | Inventário dos gateways e TODOs de roteamento |
-| [router-vivo.conf](router-vivo.conf) | Inventário dos gateways e TODOs de roteamento |
-| [switch-matriz.conf](switch-matriz.conf) | Redes confirmadas e TODOs de portas/VLANs |
-| [switch-rio.conf](switch-rio.conf) | Redes confirmadas e TODOs de portas/VLANs |
+| Matriz | [fortigate-matriz.conf](fortigate-matriz.conf) |
+| Rio | [fortigate-rio.conf](fortigate-rio.conf) |
 
-## Antes de usar os exemplos
+Cada arquivo contém somente as VPNs IPsec (Phase 1 e Phase 2), as interfaces de túnel que endereçam os peers, a zona e os membros SD-WAN das VPNs, a regra entre unidades e seu Performance SLA.
 
-- Confirmar versão/build do FortiOS, contexto VDOM e compatibilidade da sintaxe.
-- Definir interfaces, máscaras de túnel, router-id e políticas a partir do ambiente real.
-- Validar presença das redes locais e método de originação BGP; network é apenas a proposta dos exemplos.
-- Completar IPsec, incluindo propostas, seletores e autenticação, diretamente no ambiente seguro.
-- Completar membros, regra e SLA conforme [SD-WAN](../docs/sdwan.md).
-- Revisar filtros BGP, políticas e comportamento de NAT conforme os requisitos do LAB.
+As PSKs foram removidas. As portas WAN, LANs, grupos `GRP_ADDR_MATRIZ` e `GRP_ADDR_RIO`, roteamento e políticas são dependências do ambiente e não fazem parte destes recortes. Os arquivos não são backups completos para restauração.
 
-Não há PSKs, senhas ou tokens nestes exemplos. Não adicionar segredos, mesmo cifrados, nem exportações integrais. Comentários TODO indicam lacunas intencionais.
+Foram preservados nomes, IDs e parâmetros explícitos dos backups. Valores omitidos no export, como intervalo das sondas, não foram acrescentados. Configurações de switches, roteadores, gerenciamento, SD-WAN de Internet e SLAs padrão não estão incluídas.
+
+O BGP permanece explicado em [docs/bgp.md](../docs/bgp.md). Os backups enviados não contêm a linha `set ebgp-multipath enable`, embora o histórico e as evidências do teste registrem ECMP; essa diferença não foi corrigida por suposição.
