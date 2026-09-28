@@ -13,4 +13,4 @@ As PSKs foram removidas. As portas WAN, LANs, grupos `GRP_ADDR_MATRIZ` e `GRP_AD
 
 Foram preservados nomes, IDs e parâmetros explícitos dos backups. Valores omitidos no export, como intervalo das sondas, não foram acrescentados. Configurações de switches, roteadores, gerenciamento, SD-WAN de Internet e SLAs padrão não estão incluídas.
 
-O BGP permanece explicado em [docs/bgp.md](../docs/bgp.md). Os backups enviados não contêm a linha `set ebgp-multipath enable`, embora o histórico e as evidências do teste registrem ECMP; essa diferença não foi corrigida por suposição.
+O BGP permanece explicado em [docs/bgp.md](../docs/bgp.md). 
