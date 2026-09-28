@@ -52,7 +52,6 @@ Timeouts nas sequências 237 e 238, com resposta retomada em 239. [Ver as dez ev
 - [BGP e ECMP](docs/bgp.md)
 - [SD-WAN e Performance SLA](docs/sdwan.md)
 - [Testes, resultados e roteiro de reprodução](docs/testing.md)
-- [Troubleshooting](docs/troubleshooting.md)
 - [Configurações FortiGate](configs/README.md)
 - [Organização das imagens](images/README.md)
 
