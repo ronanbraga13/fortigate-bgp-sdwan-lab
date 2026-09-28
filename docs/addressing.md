@@ -8,18 +8,6 @@
 | Rio | 65000 | 10.10.10.0/24; 10.10.20.0/24; 10.10.30.0/24 |
 
 
-
-## Underlay
-
-| Operadora | Unidade | Endereço do FortiGate | Gateway | Sub-rede |
-| --- | --- | --- | --- | --- |
-| CLARO | Matriz | 172.16.10.2/30 | 172.16.10.1 | 172.16.10.0/30 |
-| CLARO | Rio | 172.16.10.6/30 | 172.16.10.5 | 172.16.10.4/30 |
-| VIVO | Matriz | 172.16.20.2/30 | 172.16.20.1 | 172.16.20.0/30 |
-| VIVO | Rio | 172.16.20.6/30 | 172.16.20.5 | 172.16.20.4/30 |
-
-Máscara /30: 255.255.255.252. O roteamento entre as duas sub-redes de cada operadora precisa ser completado conforme a infraestrutura real.
-
 ## Overlay e peers BGP
 
 | Caminho | IP Matriz | IP Rio | Peer na Matriz | Peer no Rio |
