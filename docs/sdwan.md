@@ -23,11 +23,29 @@ Não se deduz um tempo exato de convergência pela multiplicação de intervalo 
 
 ## Interpretação dos testes
 
-A degradação na CLARO foi **induzida de propósito** no ambiente controlado para simular perda no link e verificar a atuação do SD-WAN com base no Performance SLA. Não se tratou de degradação espontânea da operadora. O histórico disponível sustenta a avaliação da reação da regra, com os limites de comprovação do caminho por sessão descritos abaixo.
+A degradação foi **induzida de propósito em testes separados**: primeiro, 22% de perda na **VIVO**; depois, 17% na **CLARO**. O objetivo foi simular perda nos links e verificar a atuação do SD-WAN com Performance SLA. Não foram falhas espontâneas nem duas medições do mesmo teste no mesmo link.
 
-- **Matriz → Rio:** CLARO atingiu 22% de perda e o BGP permaneceu estabelecido. O histórico relata preferência pelo caminho VIVO durante a degradação.
-- **Rio → Matriz:** CLARO atingiu 17% de perda e o BGP permaneceu estabelecido. O diagnóstico registrado ainda mostrava os dois membros como `selected`; não há base para documentar CLARO como `unselected` nessa captura.
-- **Recuperação:** retorno automático ao estado saudável.
+### VIVO: perda induzida de 22% — Matriz → Rio
+
+O autor relata 22% de perda induzida na VIVO, mantendo o BGP estabelecido. A captura abaixo registra os dois neighbors BGP com três prefixos cada; ela não mostra a medição de perda nem o caminho utilizado pelas sessões.
+
+*Obs.: No momento do teste, a evidência dos 22% acabou se perdendo... rsrs. O resultado fica registrado pelo relato do autor, mas sem o print dessa medição.*
+
+![Matriz: neighbors BGP durante o teste de degradação](../images/bgp/matriz-bgp-durante-degradacao.png)
+
+### CLARO: perda induzida de 17% — Rio → Matriz
+
+Em outro teste, foi induzida perda na CLARO. A captura mostra **CLARO_TO_MTZ com 17%**, **VIVO_TO_MATRIZ com 0%** e os dois neighbors BGP recebendo três prefixos cada.
+
+![Rio: perda de 17% na CLARO e BGP estabelecido](../images/tests/rio-claro-perda-17-bgp.png)
+
+Ambos os membros aparecem como `selected`. Essa saída comprova a perda medida com BGP mantido, mas não identifica, sozinha, o túnel usado por cada sessão.
+
+### Recuperação
+
+Após retirar a degradação, houve retorno automático ao estado saudável, conforme registrado no LAB. A captura mostra os dois membros com 0% de perda e `alive/selected`.
+
+![Matriz: SLA saudável após a recuperação](../images/sdwan/matriz-recuperacao-sla.png)
 
 A documentação da Fortinet mostra que ambos os membros podem aparecer como `selected` em Best Quality. Para comprovar o caminho efetivo de um fluxo, correlacione ordem/prioridade do serviço, sessão e captura de tráfego. O status isolado não é prova suficiente.
 

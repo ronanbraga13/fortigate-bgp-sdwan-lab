@@ -2,7 +2,7 @@
 
 Dez prints enviados pelo autor na conversa original, revisados individualmente. Foram feitos apenas recortes locais sem redimensionamento; textos, números e estados mantidos não foram recriados. Barras do navegador, dados de gerenciamento e controles de usuário foram removidos; as imagens exportadas não contêm campos de metadados. Os originais não sanitizados não fazem parte do repositório.
 
-A perda foi **induzida intencionalmente em ambiente controlado** para testar a reação do SD-WAN ao Performance SLA. As imagens retratam momentos distintos. [Metodologia e limites](../docs/testing.md).
+A perda foi **induzida intencionalmente em ambiente controlado** para testar a reação do SD-WAN ao Performance SLA. Foram testes separados: 22% na VIVO e, depois, 17% na CLARO. As imagens retratam momentos distintos. [Metodologia e limites](../docs/testing.md).
 
 ## 1. Rio → Matriz: perda induzida de 17%
 
@@ -60,7 +60,9 @@ O destino 10.10.10.2 responde na sequência 236, apresenta timeout em 237 e 238 
 
 ## 10. Matriz: BGP durante a degradação
 
-Dois neighbors com três prefixos recebidos. O histórico associa a captura ao teste com perda induzida de 22%; o percentual não aparece nesta imagem.
+Dois neighbors com três prefixos recebidos. A captura é associada ao teste com perda induzida de 22% na VIVO, conforme relato do autor; o percentual não aparece nesta imagem.
+
+*Obs.: No momento do teste, a evidência dos 22% acabou se perdendo... rsrs. O resultado fica registrado pelo relato do autor, mas sem o print dessa medição.*
 
 ![Matriz: BGP durante a degradação](bgp/matriz-bgp-durante-degradacao.png)
 

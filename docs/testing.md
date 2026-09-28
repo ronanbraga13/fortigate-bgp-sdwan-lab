@@ -4,7 +4,7 @@
 
 Os resultados abaixo foram confirmados pelo autor e recuperados do histórico do LAB. Esta publicação não executou novamente testes nos FortiGates. Dez capturas reais enviadas pelo autor foram recuperadas e publicadas após revisão visual e recorte local para remover barras e dados de gerenciamento. Os pixels mantidos foram preservados, sem reconstrução por IA. Logs brutos não foram adicionados.
 
-**Condição experimental:** a perda na CLARO foi induzida intencionalmente no LAB para simular a degradação de um caminho WAN e verificar a reação do SD-WAN ao Performance SLA. Os percentuais observados não descrevem uma falha espontânea da operadora. A prova do caminho efetivo de cada fluxo ainda requer correlação de sessão e captura.
+**Condição experimental:** as perdas foram induzidas intencionalmente em testes separados: primeiro 22% na VIVO e, depois, 17% na CLARO para simular a degradação de um caminho WAN e verificar a reação do SD-WAN ao Performance SLA. Os percentuais observados não descrevem uma falha espontânea da operadora. A prova do caminho efetivo de cada fluxo ainda requer correlação de sessão e captura.
 
 ## Matriz de resultados
 
@@ -12,12 +12,46 @@ Os resultados abaixo foram confirmados pelo autor e recuperados do histórico do
 | --- | --- | --- | --- |
 | T01 | Baseline BGP | Dois neighbors Established por FortiGate; três prefixos por neighbor | Conferir novamente ao reproduzir |
 | T02 | ECMP | Dois next-hops por prefixo remoto | Não mede divisão de banda ou sessões |
-| T03 | Degradação induzida na CLARO, Matriz → Rio | 22% de perda com BGP mantido | Print de BGP incluído; valor de 22% e preferência pela VIVO vêm do histórico |
+| T03 | Degradação induzida na VIVO, Matriz → Rio | 22% de perda com BGP mantido | Print de BGP incluído; 22% na VIVO conforme relato do autor, sem captura da medição |
 | T04 | Degradação induzida na CLARO, Rio → Matriz | 17% de perda com BGP mantido | Ambos ainda apareciam selected; caminho por sessão não comprovado pelo indicador |
 | T05 | Indisponibilidade | Duas perdas ICMP consecutivas durante convergência | Histórico identifica caminho VIVO indisponível e continuidade pela CLARO; não comprova falha física |
 | T06 | Recuperação | Automática; retorno de BGP/ECMP e qualidade ao baseline | Tempo exato de recuperação não medido |
 
 Não há benchmark de throughput, latência de aplicação ou garantia de perda máxima. A perda medida pelo SLA não é necessariamente idêntica à perda de um fluxo ICMP de usuário.
+
+## Capturas dos testes
+
+### T03 — VIVO: 22% de perda induzida
+
+*Obs.: No momento do teste, a evidência dos 22% acabou se perdendo... rsrs. O resultado fica registrado pelo relato do autor, mas sem o print dessa medição.*
+
+O print disponível registra o BGP da Matriz com dois neighbors e três prefixos por neighbor. Não exibe os 22% nem comprova o encaminhamento de uma sessão.
+
+![Matriz: BGP durante a degradação](../images/bgp/matriz-bgp-durante-degradacao.png)
+
+### T04 — CLARO: 17% de perda induzida
+
+Teste separado do anterior: CLARO com 17%, VIVO com 0% e BGP mantido. Ambos aparecem como `selected`.
+
+![Rio: 17% de perda na CLARO e BGP mantido](../images/tests/rio-claro-perda-17-bgp.png)
+
+### T05 — Indisponibilidade e convergência
+
+Este é o teste de indisponibilidade, distinto da medição de 22%. O SLA mostra VIVO indisponível e CLARO com 0% de perda.
+
+![Matriz: VIVO indisponível no SLA](../images/tests/matriz-vivo-indisponivel.png)
+
+O ping registra timeout nas sequências 237 e 238, retomando as respostas na 239.
+
+![Duas perdas ICMP durante convergência](../images/tests/failover-duas-perdas-icmp.png)
+
+### T06 — Recuperação
+
+Retorno ao estado saudável após a retirada da falha induzida.
+
+![Matriz: SLA recuperado](../images/sdwan/matriz-recuperacao-sla.png)
+
+![Matriz: BGP e ECMP recuperados](../images/bgp/matriz-recuperacao-neighbors-ecmp.png)
 
 ## Roteiro de reprodução
 
@@ -36,13 +70,13 @@ Conferir três redes remotas, dois peers, dois next-hops por prefixo e métricas
 
 ### 2. Degradação Matriz → Rio
 
-Manter ping de um host da Matriz para um host confirmado do Rio. Induzir perda somente no caminho CLARO com o mecanismo do ambiente de laboratório (TODO: documentar ferramenta e comando reais). Registrar a perda efetivamente medida, BGP, ECMP e serviço SD-WAN.
+Manter ping de um host da Matriz para um host confirmado do Rio. Induzir perda somente no caminho VIVO com o mecanismo do ambiente de laboratório (TODO: documentar ferramenta e comando reais). Registrar a perda efetivamente medida, BGP, ECMP e serviço SD-WAN.
 
 O valor histórico é 22%; não é um comando de configuração nem uma garantia para futuras execuções. Correlacionar sessão/captura com a saída do serviço para demonstrar o caminho utilizado.
 
 ### 3. Restaurar e testar Rio → Matriz
 
-Remover a degradação, confirmar baseline e repetir no sentido inverso. Registrar o valor medido; o resultado final documentado foi 17% na CLARO. Não usar apenas selected/unselected como prova de encaminhamento.
+Remover a degradação, confirmar baseline e executar outro teste, agora induzindo perda na CLARO no sentido Rio → Matriz. Registrar o valor medido; o resultado final documentado foi 17% na CLARO. Não usar apenas selected/unselected como prova de encaminhamento.
 
 ### 4. Indisponibilidade
 

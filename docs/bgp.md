@@ -52,6 +52,8 @@ Critérios: dois peers estabelecidos, três prefixos recebidos por peer e dois n
 
 ## Relação com SD-WAN
 
-Nos testes de degradação, o BGP permaneceu estabelecido mesmo com perdas de 22% e 17% forçadas para teste de failover. A disponibilidade da sessão BGP, isoladamente, não representa a qualidade do caminho para a aplicação. Não é necessário afirmar que a rota BGP foi removida para explicar uma preferência SD-WAN por outro caminho.
+Nos testes de degradação, o BGP permaneceu estabelecido mesmo com perdas induzidas em testes separados: 22% na VIVO e, depois, 17% na CLARO. A disponibilidade da sessão BGP, isoladamente, não representa a qualidade do caminho para a aplicação. Não é necessário afirmar que a rota BGP foi removida para explicar uma preferência SD-WAN por outro caminho.
+
+Veja as [capturas junto da interpretação dos testes](sdwan.md#interpretação-dos-testes). A medição de 22% foi relatada pelo autor; o print dessa medição não foi preservado.
 
 Recortes de VPN, interfaces de túnel e SD-WAN/SLA (sem o bloco de configuração BGP): [Matriz](../configs/fortigate-matriz.conf) e [Rio](../configs/fortigate-rio.conf).
