@@ -142,16 +142,3 @@ A recuperação ocorreu automaticamente, com:
 - dois next-hops novamente disponíveis por ECMP;
 - continuidade da comunicação entre as localidades.
 
-## Evidências publicadas
-
-As imagens utilizadas nos testes estão organizadas na [galeria com legendas](../images/README.md).
-
-| Testes | Evidência |
-| --- | --- |
-| T01 / T02 | [BGP e ECMP no Rio](../images/bgp/rio-neighbors-ecmp.png); [BGP e ECMP na Matriz](../images/bgp/matriz-recuperacao-neighbors-ecmp.png) |
-| T03 | [BGP da Matriz durante a degradação](../images/bgp/matriz-bgp-durante-degradacao.png) |
-| T04 | [Perda de 17% e BGP](../images/tests/rio-claro-perda-17-bgp.png); [medição intermediária de 12%](../images/sdwan/rio-sla-perda-12.png); [ping contínuo](../images/tests/rio-matriz-ping-continuo.png) |
-| T05 | [VIVO indisponível no SLA](../images/tests/matriz-vivo-indisponivel.png); [duas perdas ICMP](../images/tests/failover-duas-perdas-icmp.png) |
-| T06 | [SLA recuperado na Matriz](../images/sdwan/matriz-recuperacao-sla.png); [BGP/ECMP recuperados](../images/bgp/matriz-recuperacao-neighbors-ecmp.png) |
-
-A [captura de baseline do Rio](../images/sdwan/rio-baseline-ecmp-sla.png) complementa as evidências do funcionamento normal do ambiente.
