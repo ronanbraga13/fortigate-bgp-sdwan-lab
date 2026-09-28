@@ -13,7 +13,7 @@ A Matriz anuncia 10.0.10.0/24, 10.0.20.0/24 e 10.0.30.0/24. O Rio anuncia 10.10.
 
 ## Multipath
 
-Configuração do `ebgp-multipath` habilitado nos dois FortiGates e as capturas mostram dois next-hops. Os backups fornecidos posteriormente não contêm `set ebgp-multipath enable`; portanto, não devem ser tratados como prova de que esse parâmetro estava habilitado naquele export. A Fortinet documenta sua necessidade para instalar múltiplos caminhos eBGP na tabela de roteamento: [Equal cost multi-path](https://docs.fortinet.com/document/fortigate/7.4.5/administration-guide/25967).
+Configuração do `ebgp-multipath` habilitado nos dois FortiGates e as capturas mostram dois next-hops. A Fortinet documenta sua necessidade para instalar múltiplos caminhos eBGP na tabela de roteamento: [Equal cost multi-path](https://docs.fortinet.com/document/fortigate/7.4.5/administration-guide/25967).
 
 A habilitação não torna quaisquer rotas equivalentes automaticamente. Os caminhos precisam atender aos critérios de seleção do BGP. No LAB, a instalação de dois next-hops por prefixo foi confirmada.
 
@@ -40,6 +40,6 @@ Critérios: dois peers estabelecidos, três prefixos recebidos por peer e dois n
 
 ## Relação com SD-WAN
 
-Nos testes de degradação, o BGP permaneceu estabelecido mesmo com perdas de 22% e 17%. A disponibilidade da sessão BGP, isoladamente, não representa a qualidade do caminho para a aplicação. Não é necessário afirmar que a rota BGP foi removida para explicar uma preferência SD-WAN por outro caminho.
+Nos testes de degradação, o BGP permaneceu estabelecido mesmo com perdas de 22% e 17% forçadas para teste de failover. A disponibilidade da sessão BGP, isoladamente, não representa a qualidade do caminho para a aplicação. Não é necessário afirmar que a rota BGP foi removida para explicar uma preferência SD-WAN por outro caminho.
 
 Recortes de VPN, interfaces de túnel e SD-WAN/SLA (sem o bloco de configuração BGP): [Matriz](../configs/fortigate-matriz.conf) e [Rio](../configs/fortigate-rio.conf).
