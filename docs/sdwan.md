@@ -27,9 +27,9 @@ A degradação foi **induzida de propósito em testes separados**: primeiro, 22%
 
 ### VIVO: perda induzida de 22% — Matriz → Rio
 
-O autor relata 22% de perda induzida na VIVO, mantendo o BGP estabelecido. A captura abaixo registra os dois neighbors BGP com três prefixos cada; ela não mostra a medição de perda nem o caminho utilizado pelas sessões.
+22% de perda induzida na VIVO, mantendo o BGP estabelecido. A captura abaixo registra os dois neighbors BGP com três prefixos cada; ela não mostra a medição de perda nem o caminho utilizado pelas sessões.
 
-*Obs.: No momento do teste, a evidência dos 22% acabou se perdendo... rsrs. O resultado fica registrado pelo relato do autor, mas sem o print dessa medição.*
+*Obs.: No momento do teste, a evidência dos 22% acabou se perdendo... rsrs. 
 
 ![Matriz: neighbors BGP durante o teste de degradação](../images/bgp/matriz-bgp-durante-degradacao.png)
 
