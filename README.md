@@ -33,7 +33,7 @@ flowchart LR
 
 *Obs.: No momento do teste, a evidência dos 22% acabou se perdendo... rsrs. O resultado fica registrado pelo relato do autor, mas sem o print dessa medição.*
 
-Esses resultados foram confirmados pelo autor no LAB e registrados na conversa de desenvolvimento. Não representam novos testes executados a partir deste repositório. Dez capturas reais, revisadas e recortadas para remover dados de gerenciamento, estão na [galeria de evidências](images/README.md); veja também [evidências e limitações](docs/testing.md). Duas perdas ICMP não permitem deduzir um tempo exato de failover.
+Esses resultados foram confirmados no LAB e registrados nas evidências. Não representam novos testes executados a partir deste repositório. Dez capturas reais, revisadas e recortadas para remover dados de gerenciamento, estão na [galeria de evidências](images/README.md); veja também [evidências e limitações](docs/testing.md). Duas perdas ICMP não permitem deduzir um tempo exato de failover.
 
 ## Evidências em destaque
 
@@ -64,10 +64,10 @@ Timeouts nas sequências 237 e 238, com resposta retomada em 239. [Ver as dez ev
 4. Confirme BGP e ECMP; em seguida, valide os membros e medições do SD-WAN.
 5. Execute o roteiro de testes em ambiente isolado, registrando baseline, degradação, falha e recuperação.
 
-**As configurações são recortes sanitizados dos backups FortiGate, não arquivos completos para restauração.** Versão confirmada nos backups: FortiOS 7.2.8 build 1639. Os endereços de overlay foram preservados conforme o LAB; pertencem a espaço público e devem permanecer isolados de redes externas.
+**As configurações são recortes sanitizados das configurações do FortiGate, não arquivos completos para restauração.** Versão utilizada: FortiOS 7.2.8 build 1639. Os endereços de overlay foram preservados conforme o LAB; pertencem a espaço público e devem permanecer isolados de redes externas.
 
 ## Escopo
 
 Inclui os dados confirmados do LAB. Não inclui credenciais, PSKs, exportações completas dos equipamentos ou endereços de gerenciamento. Os arquivos de configuração se limitam às VPNs, interfaces dos peers e SD-WAN/SLA relacionados. Switches e roteadores não possuem arquivos de configuração neste repositório.
 
-A documentação técnica da Fortinet é referenciada nas páginas de BGP e SD-WAN; as versões citadas servem como referência; os backups fornecidos identificam FortiOS 7.2.8 build 1639.
+A documentação técnica da Fortinet é referenciada nas páginas de BGP e SD-WAN; as versões citadas servem como referência.
